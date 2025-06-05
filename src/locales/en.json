@@ -1,0 +1,139 @@
+{
+  "common": {
+    "navigation": {
+      "home": "Home",
+      "services": "Services",
+      "gallery": "Gallery",
+      "contact": "Contact",
+      "booking": "Book Now"
+    },
+    "footer": {
+      "hours": "Hours",
+      "followUs": "Follow Us",
+      "allRightsReserved": "All rights reserved"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Welcome to MD Barber Club",
+      "subtitle": "Premium Grooming Experience in Raleigh, NC",
+      "bookNow": "Book Now"
+    },
+    "services": {
+      "title": "Our Services",
+      "haircut": "Classic Haircut",
+      "beardTrim": "Beard Trim",
+      "hotTowel": "Hot Towel Shave",
+      "facial": "Men's Facial",
+      "viewAll": "View All Services"
+    },
+    "about": {
+      "title": "About Us",
+      "description": "At MD Barber Club, we blend traditional barbering techniques with modern styles. Our experienced barbers are dedicated to providing you with the perfect cut and grooming experience."
+    },
+    "features": {
+      "title": "Why Choose Us",
+      "expert": {
+        "title": "Expert Barbers",
+        "description": "Skilled professionals with years of experience"
+      },
+      "modern": {
+        "title": "Modern Equipment",
+        "description": "Latest tools and premium products"
+      },
+      "comfort": {
+        "title": "Comfortable Environment",
+        "description": "Relaxing atmosphere with premium amenities"
+      },
+      "satisfaction": {
+        "title": "Satisfaction Guaranteed",
+        "description": "Your satisfaction is our top priority"
+      }
+    },
+    "location": {
+      "title": "Location",
+      "comingSoon": "More locations coming soon"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "description": "Choose from our wide range of premium services",
+    "services": {
+      "haircut": {
+        "title": "Classic Haircut",
+        "description": "Precision cut tailored to your style",
+        "price": "From $30",
+        "duration": "30 min"
+      },
+      "beardTrim": {
+        "title": "Beard Trim",
+        "description": "Professional beard grooming and shaping",
+        "price": "From $20",
+        "duration": "20 min"
+      },
+      "hotTowel": {
+        "title": "Hot Towel Shave",
+        "description": "Traditional straight razor shave with hot towel",
+        "price": "From $35",
+        "duration": "45 min"
+      },
+      "facial": {
+        "title": "Men's Facial",
+        "description": "Deep cleansing and rejuvenating facial",
+        "price": "From $45",
+        "duration": "45 min"
+      },
+      "hairColor": {
+        "title": "Hair Color",
+        "description": "Professional hair coloring services",
+        "price": "From $50",
+        "duration": "60 min"
+      },
+      "kidsCut": {
+        "title": "Kids Haircut",
+        "description": "Gentle and patient service for children",
+        "price": "From $25",
+        "duration": "30 min"
+      }
+    },
+    "bookNow": "Book Now",
+    "moreInfo": "More Information"
+  },
+  "gallery": {
+    "title": "Our Gallery",
+    "subtitle": "Showcasing our finest work and premium barbering experience"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "form": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "send": "Send Message"
+    },
+    "info": {
+      "getInTouch": "Get in Touch",
+      "hours": "Hours of Operation"
+    }
+  },
+  "booking": {
+    "title": "Book Your Appointment",
+    "steps": {
+      "service": "Select Service",
+      "datetime": "Choose Date & Time",
+      "confirm": "Confirm Booking"
+    },
+    "summary": {
+      "title": "Booking Summary",
+      "service": "Service",
+      "date": "Date",
+      "time": "Time"
+    },
+    "confirmation": {
+      "title": "Booking Confirmed!",
+      "message": "Thank you for booking with MD Barber Club"
+    }
+  }
+} 
