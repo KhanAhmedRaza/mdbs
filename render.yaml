@@ -3,7 +3,7 @@ services:
     name: mdbs
     env: node
     region: ohio
-    buildCommand: npm install && npm run build
+    buildCommand: npm run render-build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
