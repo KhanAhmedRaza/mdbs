@@ -1,0 +1,60 @@
+{
+  "home": {
+    "hero": {
+      "title": "MD Barber Club",
+      "subtitle": "Premium Grooming Experience in Raleigh",
+      "bookNow": "Book Now"
+    },
+    "services": {
+      "title": "Our Services",
+      "viewAll": "View All Services"
+    },
+    "about": {
+      "title": "About Us",
+      "description": "MD Barber Club is Raleigh's premier destination for professional grooming services. We combine traditional barbering techniques with modern styles to give you the perfect look."
+    },
+    "features": {
+      "title": "Why Choose Us",
+      "expertise": {
+        "title": "Expert Barbers",
+        "description": "Skilled professionals with years of experience"
+      },
+      "atmosphere": {
+        "title": "Modern Atmosphere",
+        "description": "Relaxing environment with premium amenities"
+      },
+      "quality": {
+        "title": "Quality Service",
+        "description": "Premium products and attention to detail"
+      },
+      "convenience": {
+        "title": "Easy Booking",
+        "description": "Online scheduling available 24/7"
+      }
+    }
+  },
+  "services": {
+    "services": {
+      "haircut": {
+        "title": "Haircut",
+        "description": "Precision haircut tailored to your style",
+        "price": "$30"
+      },
+      "shave": {
+        "title": "Traditional Shave",
+        "description": "Classic straight razor shave with hot towel",
+        "price": "$25"
+      },
+      "beard": {
+        "title": "Beard Trim",
+        "description": "Professional beard grooming and shaping",
+        "price": "$20"
+      },
+      "combo": {
+        "title": "Haircut & Beard",
+        "description": "Complete grooming package",
+        "price": "$45"
+      }
+    }
+  }
+} 
