@@ -1,59 +1,109 @@
-import { ReactNode } from 'react';
-import { AppBar, Box, Container, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
-import Navigation from './Navigation';
-import Footer from './Footer';
+import React from 'react';
+import {
+  AppBar,
+  Box,
+  Container,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+  useTheme,
+} from '@mui/material';
+import { useRouter } from 'next/router';
+import LanguageIcon from '@mui/icons-material/Language';
+import { useEffect, useState } from 'react';
 
-interface LayoutProps {
-  children: ReactNode;
-}
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
+  const theme = useTheme();
+  const [isAdmin, setIsAdmin] = useState(false);
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#FFD700', // Gold
-    },
-    background: {
-      default: '#121212',
-      paper: '#1E1E1E',
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Arial", sans-serif',
-    h1: {
-      fontWeight: 700,
-    },
-    h2: {
-      fontWeight: 600,
-    },
-  },
-});
+  useEffect(() => {
+    // Check if we're on an admin page and have the correct key
+    const isAdminPath = router.pathname.startsWith('/admin');
+    const hasValidKey = router.query.key === 'mdb2024';
+    setIsAdmin(isAdminPath && hasValidKey);
+  }, [router.pathname, router.query]);
 
-export default function Layout({ children }: LayoutProps) {
+  const handleLanguageToggle = () => {
+    const newLocale = router.locale === 'en' ? 'ar' : 'en';
+    router.push(router.pathname, router.asPath, { locale: newLocale });
+  };
+
+  const handleLogout = () => {
+    router.push('/');
+  };
+
+  const handleLogin = () => {
+    router.push('/auth');
+  };
+
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, cursor: 'pointer' }}
+            onClick={() => router.push('/')}
+          >
+            MD Barber Club
+          </Typography>
+          
+          <IconButton
+            color="inherit"
+            onClick={handleLanguageToggle}
+            sx={{ mr: 2 }}
+          >
+            <LanguageIcon />
+          </IconButton>
+
+          {!isAdmin && (
+            <Button color="inherit" onClick={() => router.push('/services')}>
+              Services
+            </Button>
+          )}
+          
+          {!isAdmin && (
+            <Button color="inherit" onClick={() => router.push('/gallery')}>
+              Gallery
+            </Button>
+          )}
+
+          {isAdmin ? (
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Button color="inherit" onClick={handleLogin}>
+              Login
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      <Box component="main" sx={{ flexGrow: 1 }}>
+        {children}
+      </Box>
+
       <Box
+        component="footer"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
+          py: 3,
+          px: 2,
+          mt: 'auto',
+          backgroundColor: theme.palette.grey[200],
         }}
       >
-        <AppBar position="fixed">
-          <Navigation />
-        </AppBar>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            pt: { xs: 8, sm: 9 },
-          }}
-        >
-          {children}
-        </Box>
-        <Footer />
+        <Container maxWidth="sm">
+          <Typography variant="body2" color="text.secondary" align="center">
+            © {new Date().getFullYear()} MD Barber Club. All rights reserved.
+          </Typography>
+        </Container>
       </Box>
-    </ThemeProvider>
+    </Box>
   );
-} 
+};
+
+export default Layout; 
