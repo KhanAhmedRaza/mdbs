@@ -1,10 +1,16 @@
 services:
   - type: web
-    name: md-barber-club
+    name: mdbs
     env: node
+    region: ohio
     buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
-    autoDeploy: true 
+      - key: NODE_VERSION
+        value: 18.19.0
+    autoDeploy: true
+    plan: starter
+    healthCheckPath: /
+    numInstances: 1 
