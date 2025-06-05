@@ -13,11 +13,12 @@ import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import en from '../locales/en.json';
 import ar from '../locales/ar.json';
+import { TranslationType, Feature } from '../types/translations';
 
 export default function HomePage() {
   const router = useRouter();
   const { locale } = router;
-  const t = locale === 'ar' ? ar : en;
+  const t = (locale === 'ar' ? ar : en) as TranslationType;
 
   return (
     <Layout>
@@ -152,10 +153,10 @@ export default function HomePage() {
               <Card sx={{ height: '100%', textAlign: 'center', p: 2 }}>
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="h2">
-                    {feature.title}
+                    {(feature as Feature).title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    {feature.description}
+                    {(feature as Feature).description}
                   </Typography>
                 </CardContent>
               </Card>
