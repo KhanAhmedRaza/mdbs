@@ -76,25 +76,25 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 direction: isRtl ? 'rtl' : 'ltr',
               }}
             >
-              {children}
-            </Box>
-            <Box
-              component="footer"
-              sx={{
-                py: 3,
-                px: 2,
-                mt: 'auto',
+        {children}
+      </Box>
+      <Box
+        component="footer"
+        sx={{
+          py: 3,
+          px: 2,
+          mt: 'auto',
                 bgcolor: 'grey.200',
                 direction: isRtl ? 'rtl' : 'ltr',
-              }}
-            >
-              <Container maxWidth="sm">
-                <Typography variant="body2" color="text.secondary" align="center">
+        }}
+      >
+        <Container maxWidth="sm">
+          <Typography variant="body2" color="text.secondary" align="center">
                   © {new Date().getFullYear()} MD Barber Club
-                </Typography>
-              </Container>
-            </Box>
-          </Box>
+          </Typography>
+        </Container>
+      </Box>
+    </Box>
         </ThemeProvider>
       </CacheProvider>
     </StyledEngineProvider>
