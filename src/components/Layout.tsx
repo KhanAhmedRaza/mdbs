@@ -1,108 +1,103 @@
 import React from 'react';
 import {
-  AppBar,
   Box,
   Container,
-  Toolbar,
   Typography,
-  Button,
-  IconButton,
-  useTheme,
+  ThemeProvider,
+  createTheme,
+  StyledEngineProvider,
+  CssBaseline,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import LanguageIcon from '@mui/icons-material/Language';
-import { useEffect, useState } from 'react';
+import MainNavigation from './MainNavigation';
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+import { prefixer } from 'stylis';
+import { useEffect } from 'react';
+
+// Create rtl cache
+const cacheRtl = createCache({
+  key: 'muirtl',
+  stylisPlugins: [prefixer, rtlPlugin],
+});
+
+// Create ltr cache
+const cacheLtr = createCache({
+  key: 'muiltr',
+});
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const theme = useTheme();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { locale } = router;
+  const isRtl = locale === 'ar';
 
+  const theme = createTheme({
+    direction: isRtl ? 'rtl' : 'ltr',
+    typography: {
+      fontFamily: isRtl ? 'Arial, sans-serif' : 'Roboto, sans-serif',
+    },
+    components: {
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            direction: isRtl ? 'rtl' : 'ltr',
+          },
+        },
+      },
+    },
+  });
+
+  // Update document direction when locale changes
   useEffect(() => {
-    // Check if we're on an admin page and have the correct key
-    const isAdminPath = router.pathname.startsWith('/admin');
-    const hasValidKey = router.query.key === 'mdb2024';
-    setIsAdmin(isAdminPath && hasValidKey);
-  }, [router.pathname, router.query]);
-
-  const handleLanguageToggle = () => {
-    const newLocale = router.locale === 'en' ? 'ar' : 'en';
-    router.push(router.pathname, router.asPath, { locale: newLocale });
-  };
-
-  const handleLogout = () => {
-    router.push('/');
-  };
-
-  const handleLogin = () => {
-    router.push('/auth');
-  };
+    document.dir = isRtl ? 'rtl' : 'ltr';
+    document.documentElement.setAttribute('lang', locale || 'en');
+  }, [isRtl, locale]);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, cursor: 'pointer' }}
-            onClick={() => router.push('/')}
+    <StyledEngineProvider injectFirst>
+      <CacheProvider value={isRtl ? cacheRtl : cacheLtr}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Box 
+            sx={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              minHeight: '100vh',
+              direction: isRtl ? 'rtl' : 'ltr',
+            }}
           >
-            MD Barber Club
-          </Typography>
-          
-          <IconButton
-            color="inherit"
-            onClick={handleLanguageToggle}
-            sx={{ mr: 2 }}
-          >
-            <LanguageIcon />
-          </IconButton>
-
-          {!isAdmin && (
-            <Button color="inherit" onClick={() => router.push('/services')}>
-              Services
-            </Button>
-          )}
-          
-          {!isAdmin && (
-            <Button color="inherit" onClick={() => router.push('/gallery')}>
-              Gallery
-            </Button>
-          )}
-
-          {isAdmin ? (
-            <Button color="inherit" onClick={handleLogout}>
-              Logout
-            </Button>
-          ) : (
-            <Button color="inherit" onClick={handleLogin}>
-              Login
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
-
-      <Box component="main" sx={{ flexGrow: 1 }}>
-        {children}
-      </Box>
-
-      <Box
-        component="footer"
-        sx={{
-          py: 3,
-          px: 2,
-          mt: 'auto',
-          backgroundColor: theme.palette.grey[200],
-        }}
-      >
-        <Container maxWidth="sm">
-          <Typography variant="body2" color="text.secondary" align="center">
-            © {new Date().getFullYear()} MD Barber Club. All rights reserved.
-          </Typography>
-        </Container>
-      </Box>
-    </Box>
+            <MainNavigation />
+            <Box 
+              component="main" 
+              sx={{ 
+                flexGrow: 1, 
+                pt: 8,
+                direction: isRtl ? 'rtl' : 'ltr',
+              }}
+            >
+              {children}
+            </Box>
+            <Box
+              component="footer"
+              sx={{
+                py: 3,
+                px: 2,
+                mt: 'auto',
+                bgcolor: 'grey.200',
+                direction: isRtl ? 'rtl' : 'ltr',
+              }}
+            >
+              <Container maxWidth="sm">
+                <Typography variant="body2" color="text.secondary" align="center">
+                  © {new Date().getFullYear()} MD Barber Club
+                </Typography>
+              </Container>
+            </Box>
+          </Box>
+        </ThemeProvider>
+      </CacheProvider>
+    </StyledEngineProvider>
   );
 };
 

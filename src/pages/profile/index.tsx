@@ -12,9 +12,12 @@ import {
   ListItemText,
   Button,
   Chip,
+  Divider,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
+import Link from 'next/link';
+import { CalendarToday as CalendarIcon } from '@mui/icons-material';
 
 interface UserProfile {
   name: string;
@@ -23,6 +26,11 @@ interface UserProfile {
     services: string[];
     barber: string;
   };
+  upcomingBookings?: {
+    service: string;
+    date: string;
+    time: string;
+  }[];
 }
 
 export default function ProfilePage() {
@@ -36,7 +44,18 @@ export default function ProfilePage() {
       router.push('/auth');
       return;
     }
-    setProfile(JSON.parse(userProfile));
+    // Add some mock upcoming bookings for demonstration
+    const parsedProfile = JSON.parse(userProfile);
+    if (!parsedProfile.upcomingBookings) {
+      parsedProfile.upcomingBookings = [
+        {
+          service: 'Haircut',
+          date: '2024-03-25',
+          time: '10:00 AM',
+        },
+      ];
+    }
+    setProfile(parsedProfile);
   }, []);
 
   const handleLogout = () => {
@@ -127,14 +146,60 @@ export default function ProfilePage() {
 
             <Grid item xs={12}>
               <Paper sx={{ p: 3 }}>
-                <Typography variant="h6" gutterBottom>
-                  {locale === 'ar' ? 'الحجوزات السابقة' : 'Past Bookings'}
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <CalendarIcon sx={{ mr: 1 }} />
+                    <Typography variant="h6">
+                      {locale === 'ar' ? 'الحجوزات' : 'Bookings'}
+                    </Typography>
+                  </Box>
+                  <Link href="/booking" passHref>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      component="a"
+                    >
+                      {locale === 'ar' ? 'حجز موعد جديد' : 'Book New Appointment'}
+                    </Button>
+                  </Link>
+                </Box>
+                
+                <Typography variant="subtitle1" gutterBottom>
+                  {locale === 'ar' ? 'الحجوزات القادمة' : 'Upcoming Appointments'}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {locale === 'ar'
-                    ? 'لا توجد حجوزات سابقة'
-                    : 'No past bookings found'}
-                </Typography>
+                
+                {profile.upcomingBookings && profile.upcomingBookings.length > 0 ? (
+                  <List>
+                    {profile.upcomingBookings.map((booking, index) => (
+                      <React.Fragment key={index}>
+                        <ListItem>
+                          <ListItemText
+                            primary={booking.service}
+                            secondary={`${booking.date} at ${booking.time}`}
+                          />
+                        </ListItem>
+                        {index < profile.upcomingBookings!.length - 1 && <Divider />}
+                      </React.Fragment>
+                    ))}
+                  </List>
+                ) : (
+                  <Typography variant="body2" color="text.secondary">
+                    {locale === 'ar'
+                      ? 'لا توجد حجوزات قادمة'
+                      : 'No upcoming appointments'}
+                  </Typography>
+                )}
+
+                <Box sx={{ mt: 3 }}>
+                  <Typography variant="subtitle1" gutterBottom>
+                    {locale === 'ar' ? 'الحجوزات السابقة' : 'Past Appointments'}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {locale === 'ar'
+                      ? 'لا توجد حجوزات سابقة'
+                      : 'No past appointments'}
+                  </Typography>
+                </Box>
               </Paper>
             </Grid>
           </Grid>

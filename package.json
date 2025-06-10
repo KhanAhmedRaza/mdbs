@@ -14,10 +14,10 @@
     "npm": ">=9.x"
   },
   "dependencies": {
-    "@emotion/cache": "^11.11.0",
-    "@emotion/react": "^11.11.3",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
     "@emotion/server": "^11.11.0",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
     "@mui/x-date-pickers": "^6.19.4",
@@ -32,6 +32,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.0.5",
+    "recharts": "^2.15.3",
+    "stylis": "^4.3.6",
+    "stylis-plugin-rtl": "^2.1.1",
     "typescript": "^5.3.3"
   },
   "devDependencies": {

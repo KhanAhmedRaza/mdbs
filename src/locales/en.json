@@ -5,7 +5,9 @@
       "services": "Services",
       "gallery": "Gallery",
       "contact": "Contact",
-      "booking": "Book Now"
+      "booking": "Book Now",
+      "about": "About",
+      "login": "Login"
     },
     "footer": {
       "hours": "Hours",

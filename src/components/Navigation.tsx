@@ -14,10 +14,12 @@ import {
 import { Menu as MenuIcon, Language, Person } from '@mui/icons-material';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useAuth } from '../contexts/AuthContext';
 
 interface UserProfile {
   name: string;
   email: string;
+  role?: 'admin' | 'user';
 }
 
 const Navigation = () => {
@@ -28,6 +30,7 @@ const Navigation = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const router = useRouter();
   const { locale } = router;
+  const { isAdmin, logout } = useAuth();
 
   useEffect(() => {
     const userProfile = localStorage.getItem('userProfile');
@@ -35,6 +38,10 @@ const Navigation = () => {
       setUser(JSON.parse(userProfile));
     }
   }, []);
+
+  if (router.pathname.startsWith('/admin')) {
+    return null;
+  }
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -56,7 +63,7 @@ const Navigation = () => {
     localStorage.removeItem('userProfile');
     setUser(null);
     handleUserMenuClose();
-    router.push('/');
+    logout();
   };
 
   const menuItems = [
@@ -111,9 +118,7 @@ const Navigation = () => {
                   legacyBehavior
                 >
                   <MenuItem
-                    onClick={() => {
-                      handleClose();
-                    }}
+                    onClick={handleClose}
                     component="a"
                   >
                     {item.label}
@@ -167,16 +172,26 @@ const Navigation = () => {
               open={Boolean(userMenuAnchor)}
               onClose={handleUserMenuClose}
             >
-              <Link href="/profile" passHref legacyBehavior>
-                <MenuItem component="a" onClick={handleUserMenuClose}>
-                  {locale === 'ar' ? 'الملف الشخصي' : 'Profile'}
-                </MenuItem>
-              </Link>
-              <Link href="/bookings" passHref legacyBehavior>
-                <MenuItem component="a" onClick={handleUserMenuClose}>
-                  {locale === 'ar' ? 'حجوزاتي' : 'My Bookings'}
-                </MenuItem>
-              </Link>
+              {isAdmin ? (
+                <Link href="/admin" passHref legacyBehavior>
+                  <MenuItem component="a" onClick={handleUserMenuClose}>
+                    {locale === 'ar' ? 'لوحة التحكم' : 'Admin Dashboard'}
+                  </MenuItem>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/profile" passHref legacyBehavior>
+                    <MenuItem component="a" onClick={handleUserMenuClose}>
+                      {locale === 'ar' ? 'الملف الشخصي' : 'Profile'}
+                    </MenuItem>
+                  </Link>
+                  <Link href="/bookings" passHref legacyBehavior>
+                    <MenuItem component="a" onClick={handleUserMenuClose}>
+                      {locale === 'ar' ? 'حجوزاتي' : 'My Bookings'}
+                    </MenuItem>
+                  </Link>
+                </>
+              )}
               <MenuItem onClick={handleLogout}>
                 {locale === 'ar' ? 'تسجيل الخروج' : 'Logout'}
               </MenuItem>
@@ -186,7 +201,6 @@ const Navigation = () => {
           <Link href="/auth" passHref legacyBehavior>
             <Button
               component="a"
-              variant="contained"
               color="primary"
               startIcon={<Person />}
               sx={{ ml: 2 }}

@@ -3,54 +3,46 @@ import {
   Box,
   Container,
   Paper,
-  Tabs,
-  Tab,
   Typography,
   TextField,
   Button,
-  Grid,
   Alert,
-  Snackbar,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`auth-tabpanel-${index}`}
-      aria-labelledby={`auth-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Auth() {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { login } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     
-    // Check hardcoded admin credentials
-    if (username === 'admin' && password === 'admin123') {
-      router.push('/admin/dashboard?key=mdb2024');
-    } else {
-      setError('Invalid username or password');
+    try {
+      // Check hardcoded admin credentials
+      if (username === 'admin' && password === 'admin123') {
+        // Store admin user data and token
+        localStorage.setItem('userProfile', JSON.stringify({
+          name: 'Admin',
+          email: 'admin@mdbarberclub.com',
+          role: 'admin'
+        }));
+        
+        // Login using auth context
+        login('admin', 'admin-token-2024');
+        
+        // Redirect to admin dashboard
+        router.push('/admin');
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (err) {
+      setError('An error occurred during login. Please try again.');
     }
   };
 

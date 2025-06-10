@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
 import {
   Box,
+  Paper,
   Typography,
-  Button,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Chip,
   IconButton,
+  Button,
   TextField,
   InputAdornment,
-  Tabs,
   Tab,
+  Tabs,
+  useTheme,
 } from '@mui/material';
 import {
-  Add as AddIcon,
+  Search as SearchIcon,
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Search as SearchIcon,
-  CheckCircle as CheckCircleIcon,
+  Add as AddIcon,
   Warning as WarningIcon,
+  CheckCircle as CheckCircleIcon,
   Error as ErrorIcon,
 } from '@mui/icons-material';
 
@@ -39,9 +40,11 @@ interface InventoryItem {
 }
 
 const InventorySection: React.FC = () => {
-  const [activeTab, setActiveTab] = useState(0);
+  const theme = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState(0);
 
+  // Sample data - in a real app, this would come from an API
   const inventoryData: InventoryItem[] = [
     {
       id: '1',
@@ -243,4 +246,4 @@ const InventorySection: React.FC = () => {
   );
 };
 
-export default InventorySection;
+export default InventorySection; 

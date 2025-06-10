@@ -1,51 +1,52 @@
 import React from 'react';
 import type { AppProps } from 'next/app';
-import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { appWithTranslation } from 'next-i18next';
 import '../styles/globals.css';
+import { TenantProvider } from '../contexts/TenantContext';
+import { AuthProvider } from '../contexts/AuthContext';
+import { createTheme } from '@mui/material/styles';
+import { useTenant } from '../contexts/TenantContext';
+import ClientOnly from '../components/ClientOnly';
 
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#FFD700', // Gold
-    },
-    background: {
-      default: '#121212',
-      paper: '#1E1E1E',
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Arial", sans-serif',
-    h1: {
-      fontWeight: 700,
-    },
-    h2: {
-      fontWeight: 600,
-    },
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: 'none',
-        },
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <AuthProvider>
+      <TenantProvider>
+        <ThemeWrapper>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Component {...pageProps} />
+          </LocalizationProvider>
+        </ThemeWrapper>
+      </TenantProvider>
+    </AuthProvider>
+  );
+}
+
+// Theme wrapper component that uses the business configuration
+function ThemeWrapper({ children }: { children: React.ReactNode }) {
+  const { currentTenant } = useTenant();
+  
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: currentTenant.primaryColor,
+      },
+      secondary: {
+        main: currentTenant.secondaryColor,
       },
     },
-  },
-});
+  });
 
-function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Component {...pageProps} />
-      </LocalizationProvider>
+      {children}
     </ThemeProvider>
   );
 }
 
-export default appWithTranslation(App); 
+export default MyApp; 

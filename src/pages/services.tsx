@@ -1,55 +1,80 @@
 import React from 'react';
 import { Box, Container, Grid, Typography, Card, CardContent } from '@mui/material';
 import Layout from '../components/Layout';
-
-const services = [
-  {
-    name: 'Haircut',
-    description: 'Expert precision cut tailored to your style and preferences.',
-  },
-  {
-    name: 'Beard Trim',
-    description: 'Professional beard grooming and shaping service.',
-  },
-  {
-    name: 'Hot Towel Shave',
-    description: 'Traditional hot towel shave for the ultimate smooth finish.',
-  },
-  {
-    name: 'Grooming Package',
-    description: 'Complete grooming experience including haircut and facial grooming.',
-  },
-];
+import { useRouter } from 'next/router';
+import en from '../locales/en.json';
+import ar from '../locales/ar.json';
 
 export default function Services() {
+  const router = useRouter();
+  const { locale } = router;
+  const t = locale === 'ar' ? ar : en;
+  const isRtl = locale === 'ar';
+
   return (
     <Layout>
-      <Box sx={{ py: 8 }}>
+      <Box 
+        sx={{ 
+          py: 8,
+          direction: isRtl ? 'rtl' : 'ltr',
+        }}
+      >
         <Container maxWidth="lg">
-          <Typography variant="h2" align="center" gutterBottom>
-            Our Services
+          <Typography 
+            variant="h2" 
+            align="center" 
+            gutterBottom
+            sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
+          >
+            {t.services.title}
           </Typography>
-          <Typography variant="subtitle1" align="center" sx={{ mb: 6 }}>
-            Premium grooming services for the modern gentleman
+          <Typography 
+            variant="subtitle1" 
+            align="center" 
+            sx={{ 
+              mb: 6,
+              direction: isRtl ? 'rtl' : 'ltr',
+            }}
+          >
+            {t.services.description}
           </Typography>
           
           <Grid container spacing={4}>
-            {services.map((service) => (
-              <Grid item xs={12} sm={6} key={service.name}>
+            {Object.entries(t.services.services).map(([key, service]) => (
+              <Grid item xs={12} sm={6} key={key}>
                 <Card
                   sx={{
                     height: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                     bgcolor: 'background.paper',
+                    direction: isRtl ? 'rtl' : 'ltr',
                   }}
                 >
                   <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h5" component="h2" gutterBottom>
-                      {service.name}
+                    <Typography 
+                      variant="h5" 
+                      component="h2" 
+                      gutterBottom
+                      sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
+                    >
+                      {service.title}
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography 
+                      variant="body1"
+                      sx={{ direction: isRtl ? 'rtl' : 'ltr' }}
+                    >
                       {service.description}
+                    </Typography>
+                    <Typography 
+                      variant="body2" 
+                      color="text.secondary"
+                      sx={{ 
+                        mt: 2,
+                        direction: isRtl ? 'rtl' : 'ltr',
+                      }}
+                    >
+                      {service.price} • {service.duration}
                     </Typography>
                   </CardContent>
                 </Card>
