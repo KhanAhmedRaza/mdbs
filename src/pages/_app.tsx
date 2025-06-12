@@ -32,11 +32,43 @@ function ThemeWrapper({ children }: { children: React.ReactNode }) {
   
   const theme = createTheme({
     palette: {
+      mode: 'light',
       primary: {
-        main: currentTenant.primaryColor,
+        main: currentTenant?.primaryColor || '#1976d2',
       },
       secondary: {
-        main: currentTenant.secondaryColor,
+        main: currentTenant?.secondaryColor || '#9c27b0',
+      },
+      background: {
+        default: '#f5f5f5',
+        paper: '#ffffff',
+      },
+    },
+    components: {
+      MuiTabs: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#ffffff',
+            borderRadius: '4px 4px 0 0',
+          },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            color: 'rgba(0, 0, 0, 0.87)',
+            '&.Mui-selected': {
+              color: '#1976d2',
+            },
+          },
+        },
+      },
+      MuiPaper: {
+        styleOverrides: {
+          root: {
+            backgroundColor: '#ffffff',
+          },
+        },
       },
     },
   });
@@ -44,9 +76,11 @@ function ThemeWrapper({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {children}
+      <ClientOnly>
+        {children}
+      </ClientOnly>
     </ThemeProvider>
   );
 }
 
-export default MyApp; 
+export default appWithTranslation(MyApp); 

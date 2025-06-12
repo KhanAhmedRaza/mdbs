@@ -42,6 +42,7 @@ function TabPanel(props: TabPanelProps) {
       hidden={value !== index}
       id={`finance-tabpanel-${index}`}
       {...other}
+      style={{ backgroundColor: '#ffffff' }}
     >
       {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
     </div>
@@ -87,11 +88,21 @@ const FinanceSection = () => {
   ];
 
   return (
-    <Box>
+    <Box sx={{ backgroundColor: '#ffffff', borderRadius: 1, boxShadow: 1 }}>
       <Tabs
         value={tabValue}
         onChange={(_, newValue) => setTabValue(newValue)}
-        sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          backgroundColor: '#ffffff',
+          '& .MuiTab-root': {
+            color: 'text.primary',
+            '&.Mui-selected': {
+              color: 'primary.main',
+            },
+          },
+        }}
       >
         <Tab label="Financial Summary" />
         <Tab label="Income & Expenses" />
